@@ -1,0 +1,70 @@
+================================
+Install Docker
+
+Install the latest docker version on your machine
+
+Make sure once you are done that you have a command terminal to execute docker commands.
+You should be able to execute docker run -it ubuntu, which will automatically pull down
+the ubuntu image from Dockerhub and then run the linux machine and enter you into a bash shell. 
+Exit with "exit" command
+
+
+================================
+Install Docker-Compose
+Install the latest docker-compose version on your machine
+
+If installed, you should be able to type docker-compose --version without error
+
+================================
+Git-Hub and Git
+Install git on your machine
+git clone https://github.com/jsturtz/ClockSynchronizationProject.git
+
+
+================================
+Using Docker-Compose to run docker containers
+
+cd ClockSynchronizationProject
+docker-compose --build          // Will pull any images if necessary, build image
+docker-compose up -d            // Will run containers in the background
+
+================================
+Common Docker commands you will need
+
+docker-compose --build
+    // If you make a change to the Dockerfile
+    // you will have to call this to rebuild the image
+
+docker-compose down
+    // Stops running your containers. You will have to stop and start your containers
+    // If you've made a change to the image
+
+docker-compose up -d
+    // Executes the docker-compose.yml to start all three containers. 
+    // Make sure to include the -d flag to run in the background
+
+docker ps                       
+    // Will list your currently running docker containers. These are processes that simulate the linux OS
+    // Should look like this:
+    // jordan@jordan-desktop:~/docker-ubuntu/ClockSynchronizationProject$ docker ps
+    // CONTAINER ID   IMAGE                COMMAND       CREATED          STATUS          PORTS     NAMES
+    // 2f91e54296ab   docker-ubuntu_nix3   "/bin/bash"   21 minutes ago   Up 21 minutes             docker-ubuntu_nix3_1
+    // d8ff75d4631d   docker-ubuntu_nix2   "/bin/bash"   21 minutes ago   Up 21 minutes             docker-ubuntu_nix2_1
+    // 7e4877210934   docker-ubuntu_nix1   "/bin/bash"   21 minutes ago   Up 21 minutes             docker-ubuntu_nix1_1
+
+docker exec -it <CONTAINER> bash
+    // Will create an interactive bash shell inside the docker container. This is analogous to SSHing into
+    // a remote linux server, e.g.  docker exec -it docker-ubuntu_nix1_1 bash
+
+docker inspect <CONTAINER> | grep \"IPAddress\"
+    // Shows you the IP addresses assigned to a particular container. You can test that these containers can talk to one another
+    // By using the above docker exec command to ssh into one container and then ping the other. They will communicate over
+    // the default network docker has established for these containers
+
+    // Example:
+    // jordan@jordan-desktop:~/docker-ubuntu/ClockSynchronizationProject$ docker inspect docker-ubuntu_nix2_1 | grep \"IPAddress\"
+    //             "IPAddress": "",
+    //                     "IPAddress": "172.21.0.4",
+
+
+

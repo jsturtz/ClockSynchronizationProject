@@ -1,0 +1,12 @@
+version: "3.9"
+services:
+    nix1:
+        build: .
+        tty: true
+    nix2:
+        build: .
+        tty: true
+    nix3:
+        build: .
+        tty: true
+
