@@ -18,7 +18,7 @@ If installed, you should be able to type docker-compose --version without error
 ================================
 Git-Hub and Git
 Install git on your machine
-git clone https://github.com/jsturtz/ClockSynchronizationProject.git
+git clone git@github.com:jsturtz/ClockSynchronizationProject.git
 
 
 ================================
