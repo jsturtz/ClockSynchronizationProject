@@ -1,7 +1,13 @@
+
+
 ================================
 Install Docker
 
-Install the latest docker version on your machine
+Install the latest Docker Desktop on your machine
+Open Powershell as administrator, execute this command: 
+    wsl --install
+Restart computer
+Open Docker Desktop. Now the dockerd daemon should be running
 
 Make sure once you are done that you have a command terminal to execute docker commands.
 You should be able to execute docker run -it ubuntu, which will automatically pull down
@@ -19,7 +25,6 @@ If installed, you should be able to type docker-compose --version without error
 Git-Hub and Git
 Install git on your machine
 git clone git@github.com:jsturtz/ClockSynchronizationProject.git
-
 
 ================================
 Using Docker-Compose to run docker containers
