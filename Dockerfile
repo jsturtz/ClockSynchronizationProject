@@ -7,5 +7,6 @@ RUN apt-get update 			\
 COPY ./third-party ./lib
 WORKDIR ./lib/libfaketime/src
 RUN make install
+WORKDIR ./
 CMD ["/bin/bash"]
 
