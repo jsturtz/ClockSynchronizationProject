@@ -1,12 +1,26 @@
 version: "3.9"
 services:
-    nix1:
+    master-build:
         build: .
+        image: nix-image
+    nix1-service:
+        image: nix-image
         tty: true
-    nix2:
-        build: .
+        container_name: node1
+    nix2-service:
+        image: nix-image
         tty: true
-    nix3:
-        build: .
+        container_name: node2
+    nix3-service:
+        image: nix-image
         tty: true
+        container_name: node3
+    nix4-service:
+        image: nix-image
+        tty: true
+        container_name: node4
+    nix5-service:
+        image: nix-image
+        tty: true
+        container_name: node5
 
