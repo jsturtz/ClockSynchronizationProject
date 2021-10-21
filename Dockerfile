@@ -5,6 +5,7 @@ RUN apt-get update 			\
  && apt-get install -y python3 		\
  && apt-get install -y vim
 COPY ./third-party ./lib
+COPY ./src ./lib/time-daemon
 WORKDIR ./lib/libfaketime/src
 RUN make install
 WORKDIR /
