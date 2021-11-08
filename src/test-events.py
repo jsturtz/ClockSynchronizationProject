@@ -1,6 +1,7 @@
 import threading
 from time import sleep
 import sys
+import multiprocessing
 
 # We can create our own custom event classes like this
 class MyCustomEvent(threading.Event):
@@ -59,7 +60,7 @@ def master_ack_handler(event, timeout):
 def listening_for_master_ack(handler_event: MyCustomEvent):
 
     while True:
-        signal = input("-->")
+        signal = "MasterAcks"
         if signal == "MasterAck":
             handler_event.set()
             break
@@ -67,16 +68,67 @@ def listening_for_master_ack(handler_event: MyCustomEvent):
 
 if __name__ == "__main__":
 
-    # Create our event object
-    e = MyCustomEvent()
+    # # Create our event object to be shared across processes
+    # e = multiprocessing.Event()
+
+    # # The first thread will wait for the event to be set to do something if set before timeout expires
+    # w1 = multiprocessing.Process(name='WaitingForMasterAck', 
+    #                              target=master_ack_handler,
+    #                              kwargs={"event": e, "timeout": 10})
+    # w1.start()
+
+    # # The second thread will trigger the event, e, if MasterAck heard from stdin
+    # w2 = multiprocessing.Process(name='ListeningForMasterAck', 
+    #                              target=listening_for_master_ack,
+    #                              kwargs={"handler_event": e})
+    # w2.start()
+
+    # # Wait for w1 to finish, which is guaranteed to exit
+    # w1.join()
+
+    # # When w1 is done, kill w2
+    # w2.terminate()
+
+    e = multiprocessing.Event()
 
     # Create thread of execution, waiting for ten seconds for the e.set() to be called
-    thread1 = MyThread(name="Waiting-For-Master-Ack", target=master_ack_handler, kwargs={"event": e, "timeout": 10})
-    thread1.start()
+    thread_to_handle_signal = MyThread(name="Waiting-For-Master-Ack", target=master_ack_handler, kwargs={"event": e, "timeout": 10})
 
     # listen for signals while thread1 is alive. If right signal shows up before thread1 terminates, call e.set()
     thread2 = MyThread(name="Listening-for-Master-Ack", target=listening_for_master_ack, kwargs={"handler_event": e})
     thread2.start()
 
-    thread2.stop_when_thread_ends(thread1)
+    # thread2.stop_when_thread_ends(thread1)
 
+# import multiprocessing
+# import time
+
+# def wait_for_event(e):
+#     """Wait for the event to be set before doing anything"""
+#     print 'wait_for_event: starting'
+#     e.wait()
+#     print 'wait_for_event: e.is_set()->', e.is_set()
+
+# def wait_for_event_timeout(e, t):
+#     """Wait t seconds and then timeout"""
+#     print 'wait_for_event_timeout: starting'
+#     e.wait(t)
+#     print 'wait_for_event_timeout: e.is_set()->', e.is_set()
+
+
+# if __name__ == '__main__':
+#     e = multiprocessing.Event()
+#     w1 = multiprocessing.Process(name='block', 
+#                                  target=wait_for_event,
+#                                  args=(e,))
+#     w1.start()
+
+#     w2 = multiprocessing.Process(name='non-block', 
+#                                  target=wait_for_event_timeout, 
+#                                  args=(e, 2))
+#     w2.start()
+
+#     print 'main: waiting before calling Event.set()'
+#     time.sleep(3)
+#     e.set()
+#     print 'main: event is set'

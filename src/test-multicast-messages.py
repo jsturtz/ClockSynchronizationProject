@@ -1,3 +1,4 @@
+
 from threading import Thread
 import sys
 
@@ -26,7 +27,7 @@ def sender():
             # Send data to the multicast group
             message = input("--> ")
             print("Message: %s" % message)
-            sent = sock.sendto(bytes(message, encoding='utf-8'), multicast_group)
+            sock.sendto(bytes(message, encoding='utf-8'), multicast_group)
             if message == "q":
                 break
 
@@ -86,5 +87,4 @@ def main():
 
 if __name__ == "__main__":
     main()
-
 
