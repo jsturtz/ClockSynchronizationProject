@@ -38,4 +38,11 @@ services:
         environment:
                 - LD_PRELOAD=/usr/local/lib/faketime/libfaketime.so.1
                 - FAKETIME_NO_CACHE=1
+    nix6-service:
+        image: nix-image
+        tty: true
+        container_name: node6
+        environment:
+                - LD_PRELOAD=/usr/local/lib/faketime/libfaketime.so.1
+                - FAKETIME_NO_CACHE=1
 
